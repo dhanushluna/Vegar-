@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="ta">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Vegar</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Noto+Sans+Tamil:wght@400;600&family=Sora:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--c:#a64dff;--c2:#d9c2ff;--glass:rgba(255,255,255,.07);--line:rgba(255,255,255,.14)}
+html,body{margin:0;height:100%;background:#000;color:#f2ebff;font-family:'Sora','Noto Sans Tamil',system-ui,sans-serif}
+body{display:flex;flex-direction:column;height:100dvh;overflow:hidden;padding:env(safe-area-inset-top,0) 14px calc(env(safe-area-inset-bottom,0px) + 12px)}
+svg.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.g{background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+.ib{min-width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--c2);border-radius:50%;padding:0;font-size:13px;font-weight:600;font-family:inherit}
+.ib.on{background:var(--c);color:#fff;box-shadow:0 0 18px var(--c)}
+.top{display:flex;align-items:center;gap:8px;padding:12px 0 4px}
+.top b{flex:1;font:600 15px 'Orbitron',system-ui;letter-spacing:6px;color:var(--c2)}
+#o{flex:1;min-height:0;width:100%;filter:drop-shadow(0 0 26px rgba(176,75,255,.4))}
+#st{text-align:center;font-size:13px;color:#a98ad6;height:22px}
+#log{max-height:26%;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:4px 2px 10px}
+.m{max-width:82%;padding:9px 13px;font-size:15px;line-height:1.45;white-space:pre-wrap}
+.m small{display:block;margin-top:4px;font-size:10px;opacity:.55}
+.me{align-self:flex-end;border-radius:20px 20px 6px 20px;background:linear-gradient(135deg,#8a3dff,#c04bd8)}
+.bot{align-self:flex-start;border-radius:20px 20px 20px 6px}
+.sys{align-self:center;color:#9a85c4;font-size:12px}
+.bar{display:flex;align-items:center;gap:10px}
+.in{flex:1;min-width:0;height:48px;border-radius:24px;display:flex;align-items:center;padding:0 6px 0 16px}
+.in input{flex:1;min-width:0;background:none;border:0;outline:0;color:#fff;font-size:15px;font-family:inherit}
+.in .ib{width:36px;height:36px;min-width:36px;background:var(--c);color:#fff;border:0}
+.bar>.ib{width:48px;height:48px}
+.bk{position:fixed;inset:0;background:#000a;opacity:0;pointer-events:none;transition:opacity .3s;z-index:14}
+.bk.show{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;bottom:0;left:0;width:88%;max-width:360px;transform:translateX(-105%);transition:transform .3s;background:rgba(10,6,18,.97);backdrop-filter:blur(16px);border-right:1px solid var(--line);z-index:15;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0)}
+.drawer.show{transform:none}
+.dh{display:flex;align-items:center;gap:8px;padding:12px}
+.dh h3{flex:1;margin:0;font-size:16px;color:var(--c2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dbody{flex:1;overflow-y:auto;padding:4px 12px 16px;display:flex;flex-direction:column;gap:8px}
+.card{padding:12px 14px;border-radius:14px;background:var(--glass);border:1px solid var(--line)}
+.card b{display:block;font-size:14px;font-weight:600;margin-bottom:4px}
+.card small{font-size:11px;opacity:.6}
+.pnl{position:fixed;inset:0;background:rgba(0,0,0,.96);display:none;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 16px) 16px 16px;z-index:16}
+.pnl.show{display:flex}
+.pnl h3{margin:0 0 12px;color:var(--c2);display:flex;align-items:center;gap:8px;font-size:17px}
+.pl{flex:1;overflow-y:auto;font-size:14px;line-height:1.5}
+.row{display:flex;align-items:center;gap:8px;padding:10px 12px;margin-bottom:8px;border-radius:12px;background:var(--glass);border:1px solid var(--line)}
+.row span{flex:1}
+.mini{background:none;border:0;color:var(--c2);font-size:18px;padding:4px;display:flex}
+.mini.on{color:#ffd45e}
+.pb{display:flex;gap:8px;margin-top:10px}
+.pb button{flex:1;padding:12px;border-radius:12px;border:0;color:#fff;background:var(--c);font-family:inherit}
+.pb button.red{background:#a02050}
+#alarm{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;flex-direction:column;gap:20px;z-index:20;font-size:22px;text-align:center;padding:20px}
+#alarm button{background:var(--c);color:#fff;border:0;border-radius:14px;padding:16px 30px;font-size:20px}
+</style>
+</head>
+<body>
+<div class="top"><b>VEGAR</b>
+<button class="g ib" id="bHist" data-ic="hist"></button>
+<button class="g ib" id="bTim" data-ic="timer"></button>
+<button class="g ib" id="bMem" data-ic="bulb"></button>
+<button class="g ib" id="bKey" data-ic="key"></button>
+<button class="g ib" id="bLang" style="border-radius:20px;padding:0 12px">தமிழ்</button></div>
+<canvas id="o"></canvas>
+<div id="st"></div>
+<div id="log"></div>
+<div class="bar">
+<div class="g in"><input id="inp" autocomplete="off"><button class="ib" id="bSend" data-ic="send"></button></div>
+<button class="g ib" id="bClap" data-ic="wave"></button>
+<button class="g ib" id="bLive" data-ic="mic"></button>
+</div>
+<div id="hbk" class="bk"></div>
+<aside id="hist" class="drawer"><div class="dh"><button class="g ib" id="hBack" style="display:none" data-ic="back"></button><h3 id="hTitle"></h3><button class="g ib" id="hDel" style="display:none" data-ic="trash"></button><button class="g ib" id="hClose" data-ic="x"></button></div><div id="hBody" class="dbody"></div></aside>
+<div id="memp" class="pnl"><h3><span data-ic="bulb"></span>நினைவகம்</h3><div id="meml" class="pl"></div><div class="pb"><button class="red" id="bClear">அனைத்தையும் அழி</button><button id="bClose">மூடு</button></div></div>
+<div id="timp" class="pnl"><h3><span data-ic="timer"></span>டைமர்கள்</h3><div id="timl" class="pl"></div><div class="pb"><button class="red" id="bTClear">எல்லாம் நிறுத்து</button><button id="bTClose">மூடு</button></div></div>
+<div id="alarm"><div id="alarmTxt"></div><button id="bStop">நிறுத்து</button></div>
+<script>
+const $=id=>document.getElementById(id),sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const load=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}},save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const sv=p=>`<svg class='ic' viewBox='0 0 24 24'>${p}</svg>`;
+const ICON={hist:sv(`<path d='M3 12a9 9 0 1 0 3-6.7'/><path d='M3 4v5h5'/><path d='M12 7v5l3 2'/>`),timer:sv(`<circle cx='12' cy='13' r='8'/><path d='M12 9v4l2 2M9 2h6'/>`),bulb:sv(`<path d='M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z'/>`),key:sv(`<circle cx='8' cy='15' r='4'/><path d='M11 12l9-9M16 7l3 3'/>`),send:sv(`<path d='M22 2L11 13M22 2l-7 20-4-9-9-4z'/>`),wave:sv(`<path d='M22 12h-4l-3 9L9 3l-3 9H2'/>`),mic:sv(`<rect x='9' y='2' width='6' height='12' rx='3'/><path d='M5 11a7 7 0 0 0 14 0M12 18v4'/>`),x:sv(`<path d='M18 6L6 18M6 6l12 12'/>`),trash:sv(`<path d='M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6'/>`),back:sv(`<path d='M15 18l-6-6 6-6'/>`)};
+document.querySelectorAll('[data-ic]').forEach(e=>{e.innerHTML=ICON[e.dataset.ic]});
+if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+
+let lang=localStorage.getItem('vegar_lang')||'ta',KEY=localStorage.getItem('vegar_key')||'';
+let mem=load('vegar_mem',[]).map(m=>typeof m==='string'?{f:m,imp:false,t:Date.now()}:m);
+let sess=load('vegar_sess',[]),timers=load('vegar_timers',[]),gender=localStorage.getItem('vegar_gender')||'male';
+let speaker=null,chat=[],cur=null,live=false,clapOn=false,busy=false,rec=null,cs=null,wl=null,state='idle';
+const MODEL='gemini-flash-lite-latest';
+const BAD_AR=/[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/;
+const PALS={purple:[[255,79,163],[166,77,255],[80,110,255]],blue:[[90,220,255],[60,120,255],[130,90,255]],green:[[130,255,190],[30,190,120],[30,130,210]],red:[[255,140,120],[235,45,60],[150,25,90]],gold:[[255,235,150],[240,170,30],[225,95,45]],pink:[[255,160,225],[230,60,170],[150,60,230]]};
+let PAL=PALS.purple;
+function setColor(n){const p=PALS[n];if(!p)return;PAL=p;document.documentElement.style.setProperty('--c','rgb('+p[1].join(',')+')');localStorage.setItem('vegar_color',n)}
+setColor(localStorage.getItem('vegar_color')||'purple');
+(function(){const o=load('vegar_hist',null);if(o&&o.length&&!sess.length){sess.push({id:1,t:Date.now(),last:Date.now(),msgs:o.map(h=>({w:h.w,t:h.t,d:h.d}))});save('vegar_sess',sess)}localStorage.removeItem('vegar_hist')})();
+function cleanMem(){const n=Date.now(),Y=31536000000;mem=mem.filter(m=>m.imp||n-m.t<Y);const imp=mem.filter(m=>m.imp),nor=mem.filter(m=>!m.imp).slice(-50);mem=imp.concat(nor).sort((a,b)=>a.t-b.t);save('vegar_mem',mem)}
+cleanMem();
+
+/* ---------- orb ---------- */
+const cv=$('o'),cx=cv.getContext('2d');let W,H,D;
+function fit(){D=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*D;cv.height=H*D;cx.setTransform(D,0,0,D,0,0)}
+addEventListener('resize',fit);fit();
+const N=2400,P=[],ga=Math.PI*(3-Math.sqrt(5));
+for(let i=0;i<N;i++){const y=1-2*(i+.5)/N,r=Math.sqrt(1-y*y),a=ga*i;P.push([Math.cos(a)*r,y,Math.sin(a)*r])}
+const mix=(a,b,k)=>[a[0]+(b[0]-a[0])*k,a[1]+(b[1]-a[1])*k,a[2]+(b[2]-a[2])*k];
+const OT={idle:[.28,1.8],listening:[.34,2.8],thinking:[.32,3.4],speaking:[.36,3.2]};
+let amp=.3,spd=1.8,t=0,lvl=0,kick=0,tint=0;
+function orb(){
+const tg=OT[state]||OT.idle;t+=.012*spd*(1+lvl*1.5);amp+=(tg[0]-amp)*.04;spd+=(tg[1]-spd)*.04;
+kick*=.92;const base=state==='speaking'?.3+.25*Math.sin(t*5.5)*Math.sin(t*2.3):kick;lvl+=(base-lvl)*.2;tint*=.99;
+const A=Math.min(.38,amp+lvl*.25);
+cx.clearRect(0,0,W,H);cx.globalCompositeOperation='lighter';
+const m=Math.min(W,H),s=m*.3,ox=W/2+Math.sin(t*.5)*m*.03,oy=H/2+Math.cos(t*.4)*m*.03,u=m/360;
+for(const p of P){
+const x=p[0],y=p[1],z=p[2];
+const q=(Math.sin(1.6*x+1.2*y+t*.9)+Math.sin(1.9*y-1.5*z-t*.7)+Math.sin(1.7*z+1.4*x+t*.6)+.6*Math.sin(4*x+3*z+t*1.3))/3.4;
+const R=1+A*q*1.6,rim=Math.pow(1-Math.max(0,z),1.4),rg=Math.max(0,q);
+const al=Math.min(1,(z<0?.22:.3+.6*rim)+.8*rg*rg*(z<0?.4:1));
+const k=Math.max(0,Math.min(1,((x+1)/2)*.35+((y+1)/2)*.65+tint));
+let c=k<.5?mix(PAL[0],PAL[1],k*2):mix(PAL[1],PAL[2],(k-.5)*2);
+c=mix(c,[255,61,110],rg*.45);
+cx.fillStyle='rgba('+(c[0]|0)+','+(c[1]|0)+','+(c[2]|0)+','+al.toFixed(2)+')';
+cx.beginPath();cx.arc(ox+x*R*s,oy+y*R*s,(.5+1.7*(.3+rim*.7+rg*.5))*u,0,6.283);cx.fill();
+}
+cx.lineWidth=.9;
+for(let r=0;r<3;r++){
+cx.beginPath();
+for(let i=0;i<=80;i++){
+const a=i/80*6.283,ph=r*2.1,x=Math.cos(a),y=Math.sin(a)*Math.cos(ph+t*.4),z=Math.sin(a)*Math.sin(ph+t*.4);
+const q=(Math.sin(1.6*x+1.2*y+t*.9)+Math.sin(1.9*y-1.5*z-t*.7)+Math.sin(1.7*z+1.4*x+t*.6))/3;
+const R=1.08+A*q*1.8,px=ox+x*R*s,py=oy+y*R*s;
+if(i)cx.lineTo(px,py);else cx.moveTo(px,py);
+}
+const c=mix(PAL[0],PAL[2],r/2);
+cx.strokeStyle='rgba('+(c[0]|0)+','+(c[1]|0)+','+(c[2]|0)+',.35)';
+cx.stroke();
+}
+requestAnimationFrame(orb);
+}
+orb();
+function setState(s){
+state=s;
+const tx={idle:'',listening:lang==='ta'?'கேட்கிறேன்...':'Listening...',thinking:lang==='ta'?'யோசிக்கிறேன்...':'Thinking...',speaking:''};
+$('st').textContent=tx[s]||'';
+}
+function showEmo(e){if(e==='happy')tint=-.18;else if(e==='sad')tint=.22;else if(e==='surprised')kick=1.2}
+
+function addLog(who,text){
+const d=document.createElement('div');d.className='m '+who+(who==='bot'?' g':'');d.textContent=text;
+$('log').appendChild(d);while($('log').children.length>40)$('log').removeChild($('log').firstChild);$('log').scrollTop=1e9;
+}
+function addHist(who,text){
+const now=Date.now();
+if(!cur||now-cur.last>1800000){cur={id:now,t:now,last:now,msgs:[]};sess.push(cur)}
+cur.last=now;cur.msgs.push({w:who,t:text,d:now});if(cur.msgs.length>300)cur.msgs.shift();
+if(sess.length>60)sess=sess.slice(-60);save('vegar_sess',sess);
+}
+function updLang(){$('bLang').textContent=lang==='ta'?'தமிழ்':'EN';$('inp').placeholder=lang==='ta'?'தட்டச்சு செய்யுங்கள்...':'Type here...'}
+function updBtns(){$('bLive').classList.toggle('on',live);$('bClap').classList.toggle('on',clapOn)}
+
+/* ---------- Gemini ---------- */
+function askKey(force){
+if(KEY&&!force)return true;
+const k=prompt('Gemini API key');
+if(k&&k.trim()){KEY=k.trim();localStorage.setItem('vegar_key',KEY);return true}
+return false;
+}
+function buildSys(){
+const facts=mem.length?mem.map(m=>'- '+m.f).join('\n'):'(none yet)';
+const now=new Date().toLocaleString('en-IN');
+return `You are Vegar, a friendly, very smart assistant created by Dhanushkodi, a beginner from Tamil Nadu. Your voice is currently ${gender}.
+Now: ${now}.
+Think carefully before answering. Give correct, useful, specific answers, and say plainly when you are not sure.
+Reply language: ${lang==='ta'?'simple spoken Tamil (Tamil script)':'simple English'}. Keep replies short, 1 to 3 sentences, plain text only, no markdown, no emoji, no lists, because replies are read aloud.
+Names: many people talk to you (family, friends). Never assume the speaker is Dhanushkodi. Do not call the speaker by any name unless they told you who they are. Current speaker: ${speaker||'unknown'}. If the speaker says who they are, put that name in "speaker". Mention Dhanushkodi only as your creator when asked.
+Saved facts:
+${facts}
+Use them when useful. In "new_facts" list only NEW durable facts as objects {"f":"short fact saying who it is about","imp":true}. imp is true for names of people, relationships and lasting facts, false for ordinary preferences or plans. Never save passwords, OTPs, bank or card numbers, or other secrets. If nothing new, use [].
+Emotion: set "emotion" to one of happy, sad, surprised, or none, matching the feeling in the user's words or your reply.
+Actions: if the user asks for a timer or alarm, set "timer":{"seconds":N,"label":"short label"} (for an alarm at a clock time, work out the seconds from Now). If the user asks to change your colour, set "color" to one of purple, blue, green, red, gold, pink. If the user asks for a boy/male/man voice set "voice":"male"; for a girl/female/woman voice set "voice":"female". Otherwise leave these null.
+Translation: if the user asks to translate something or asks how to say something in another language, give the translation in that language first, then say it once more in ${lang==='ta'?'Tamil':'English'} only if it helps. Write the translation in the script of that language. Keep it short.
+Voice input may be garbled, so guess the meaning kindly.
+Answer ONLY as JSON: {"reply":"...","speaker":null,"new_facts":[],"emotion":"none","timer":null,"color":null,"voice":null}`;
+}
+async function think(text){
+if(!askKey(false))return lang==='ta'?'API key தேவை. மேலே key பட்டனை அழுத்துங்கள்.':'I need an API key. Tap the key button.';
+chat.push({role:'user',parts:[{text}]});chat=chat.slice(-12);
+try{
+const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':KEY},body:JSON.stringify({system_instruction:{parts:[{text:buildSys()}]},contents:chat,generationConfig:{temperature:0.7,responseMimeType:'application/json'}})});
+if(!r.ok){chat.pop();
+if(r.status===429)return lang==='ta'?'இன்றைய வரம்பு முடிந்தது. சிறிது நேரம் கழித்து முயற்சிக்கவும்.':'Rate limit reached. Try again in a minute.';
+if(r.status===400||r.status===403)return lang==='ta'?'API key சரியில்லை. key பட்டனை அழுத்தி மாற்றுங்கள்.':'The API key looks wrong. Tap the key button.';
+return lang==='ta'?'பிழை ஏற்பட்டது. மீண்டும் சொல்லுங்கள்.':'Something went wrong. Please try again.';}
+const j=await r.json();
+const raw=j.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('')||'';
+let out;try{out=JSON.parse(raw)}catch(e){out={reply:raw}}
+const reply=(out.reply||'').toString().trim()||(lang==='ta'?'மன்னிக்கவும், புரியவில்லை.':'Sorry, I did not get that.');
+if(out.speaker&&typeof out.speaker==='string')speaker=out.speaker.trim().slice(0,40);
+if(Array.isArray(out.new_facts)){let ch=false;
+for(let f of out.new_facts){let imp=false;if(f&&typeof f==='object'){imp=!!f.imp;f=f.f}f=String(f||'').trim().slice(0,150);
+if(f&&!mem.some(m=>m.f.toLowerCase()===f.toLowerCase())){mem.push({f:f,imp:imp,t:Date.now()});ch=true}}
+if(ch)cleanMem();}
+if(out.color)setColor(out.color);
+if(out.voice==='male'||out.voice==='female'){gender=out.voice;localStorage.setItem('vegar_gender',gender)}
+if(out.timer&&Number(out.timer.seconds)>0)addTimer(Number(out.timer.seconds),out.timer.label||'');
+showEmo(out.emotion);
+chat.push({role:'model',parts:[{text:reply}]});
+return reply;
+}catch(e){chat.pop();return lang==='ta'?'இணையம் இல்லை போலிருக்கிறது.':'Looks like there is no internet.'}
+}
+
+/* ---------- Timers ---------- */
+function addTimer(sec,label){timers.push({at:Date.now()+sec*1000,label:label||'',done:false});save('vegar_timers',timers)}
+let beepCtx=null,beepIv=null;
+function beep(){try{beepCtx=beepCtx||new (window.AudioContext||window.webkitAudioContext)();const o=beepCtx.createOscillator(),g=beepCtx.createGain();o.frequency.value=880;g.gain.value=.3;o.connect(g);g.connect(beepCtx.destination);o.start();o.stop(beepCtx.currentTime+.25)}catch(e){}}
+function ring(label){
+$('alarmTxt').textContent=label||(lang==='ta'?'டைமர் முடிந்தது':'Timer done');$('alarm').style.display='flex';
+beep();clearInterval(beepIv);beepIv=setInterval(beep,900);
+try{navigator.vibrate&&navigator.vibrate([400,200,400,200,400])}catch(e){}
+}
+$('bStop').onclick=()=>{clearInterval(beepIv);$('alarm').style.display='none'};
+setInterval(()=>{let ch=false;for(const x of timers){if(!x.done&&Date.now()>=x.at){x.done=true;ch=true;ring(x.label)}}if(ch)save('vegar_timers',timers)},1000);
+
+/* ---------- Voice out ---------- */
+let voices=[];
+function loadVoices(){voices=speechSynthesis.getVoices()||[]}
+if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
+function pickVoice(l){
+const c=voices.filter(v=>v.lang&&v.lang.replace('_','-').toLowerCase().startsWith(l.toLowerCase().slice(0,2)));
+const isF=v=>/female|woman/i.test(v.name),isM=v=>/\bmale\b|man\b/i.test(v.name)&&!isF(v);
+if(gender==='male')return c.find(isM)||null;
+return c.find(isF)||c[0]||null;
+}
+function speak(tx){
+return new Promise(res=>{
+if(!('speechSynthesis' in window)){res();return}
+speechSynthesis.cancel();
+const sc=/[\u0900-\u097F]/.test(tx)?'hi-IN':/[\u0C00-\u0C7F]/.test(tx)?'te-IN':/[\u0D00-\u0D7F]/.test(tx)?'ml-IN':/[\u0C80-\u0CFF]/.test(tx)?'kn-IN':null;const u=new SpeechSynthesisUtterance(tx),l=sc||(lang==='ta'?'ta-IN':'en-IN');u.lang=l;
+const v=pickVoice(l);if(v)u.voice=v;
+u.pitch=gender==='male'?(v?.9:.6):(v?1.1:1.4);u.rate=1;
+let done=false;const fin=()=>{if(!done){done=true;res()}};
+u.onend=fin;u.onerror=fin;setTimeout(fin,Math.max(8000,tx.length*180));
+setState('speaking');speechSynthesis.speak(u);
+});
+}
+
+/* ---------- Voice in ---------- */
+function listen(){
+return new Promise(res=>{
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(!SR){res({err:'nosupport'});return}
+const r=new SR();rec=r;r.lang=lang==='ta'?'ta-IN':'en-IN';r.interimResults=true;r.continuous=false;r.maxAlternatives=3;
+let done=false;const fin=v=>{if(!done){done=true;rec=null;res(v)}};
+r.onspeechstart=r.onsoundstart=()=>{kick=1};
+r.onresult=e=>{
+if(!e.results[0].isFinal){kick=1;return}
+const alts=[...e.results[0]].map(a=>(a.transcript||'').trim()).filter(Boolean);
+const ok=alts.find(tx=>{
+if(BAD_AR.test(tx))return false;
+if(lang==='en')return !/[^\x00-\x7F]/.test(tx);
+return /[\u0B80-\u0BFF]/.test(tx)||/^[\x00-\x7F\s]+$/.test(tx);
+});
+fin(ok?{text:ok}:{bad:true});
+};
+r.onerror=e=>fin({err:e.error});r.onend=()=>fin({});
+setState('listening');
+try{r.start()}catch(e){fin({err:'start'})}
+});
+}
+
+/* ---------- Conversation ---------- */
+async function handle(text){
+if(busy)return;
+busy=true;addLog('me',text);addHist('me',text);setState('thinking');
+const reply=await think(text);
+addLog('bot',reply);addHist('bot',reply);
+await speak(reply);
+busy=false;setState('idle');
+}
+async function liveLoop(){
+let silent=0;
+while(live){
+const r=await listen();if(!live)break;
+if(['not-allowed','service-not-allowed','nosupport'].includes(r.err)){addLog('sys',lang==='ta'?'mic அனுமதி தேவை':'Microphone permission needed');break}
+if(r.text){silent=0;await handle(r.text);await sleep(500)}else{silent++;if(silent>=10)break;await sleep(400)}
+}
+stopLive();
+}
+async function startLive(){if(live)return;stopClap();live=true;updBtns();getWake();await sleep(700);liveLoop()}
+function stopLive(){
+live=false;try{rec&&rec.abort()}catch(e){}try{speechSynthesis.cancel()}catch(e){}
+busy=false;setState('idle');updBtns();
+if(clapOn)setTimeout(startClap,900);else releaseWake();
+}
+
+/* ---------- Clap to wake ---------- */
+function timeSay(){
+const tm=new Date().toLocaleTimeString(lang==='ta'?'ta-IN':'en-IN',{hour:'numeric',minute:'2-digit'});
+return lang==='ta'?`வணக்கம்! இப்போது நேரம் ${tm}. சொல்லுங்கள்.`:`Hello! The time is ${tm}. How can I help?`;
+}
+async function onClap(){stopClap();await sleep(800);live=true;updBtns();addLog('bot',timeSay());await speak(timeSay());await sleep(500);liveLoop()}
+async function startClap(){
+if(cs||live)return;
+try{
+const stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+const ac=new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')await ac.resume();
+const an=ac.createAnalyser();an.fftSize=512;ac.createMediaStreamSource(stream).connect(an);
+const buf=new Uint8Array(an.fftSize);let first=0,last=0,raf=0;
+cs={stop(){cancelAnimationFrame(raf);stream.getTracks().forEach(x=>x.stop());try{ac.close()}catch(e){}cs=null}};
+const tick=()=>{
+if(!cs)return;an.getByteTimeDomainData(buf);
+let pk=0;for(let i=0;i<buf.length;i++){const d=Math.abs(buf[i]-128);if(d>pk)pk=d}
+const now=performance.now();
+if(pk>80&&now-last>180){last=now;if(first&&now-first<900){first=0;onClap();return}first=now}
+if(first&&now-first>900)first=0;
+raf=requestAnimationFrame(tick);
+};
+getWake();tick();
+}catch(e){clapOn=false;updBtns();addLog('sys',lang==='ta'?'mic அனுமதி தேவை':'Microphone permission needed')}
+}
+function stopClap(){if(cs)cs.stop()}
+async function getWake(){try{if('wakeLock' in navigator&&!wl)wl=await navigator.wakeLock.request('screen')}catch(e){}}
+function releaseWake(){try{wl&&wl.release()}catch(e){}wl=null}
+
+/* ---------- Panels ---------- */
+function showMem(){
+const l=$('meml');l.innerHTML='';
+if(!mem.length)l.textContent='இன்னும் எதுவும் நினைவில் இல்லை.';
+mem.forEach((m,i)=>{
+const d=document.createElement('div');d.className='row';
+const s=document.createElement('span');s.textContent=m.f;
+const st=document.createElement('button');st.className='mini'+(m.imp?' on':'');st.textContent=m.imp?'\u2605':'\u2606';
+st.onclick=()=>{m.imp=!m.imp;if(m.imp)m.t=Date.now();save('vegar_mem',mem);showMem()};
+const x=document.createElement('button');x.className='mini';x.innerHTML=ICON.trash;
+x.onclick=()=>{if(confirm('அழிக்கவா?')){mem.splice(i,1);save('vegar_mem',mem);showMem()}};
+d.append(s,st,x);l.appendChild(d);
+});
+$('memp').classList.add('show');
+}
+const fmt=d=>typeof d==='number'?new Date(d).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):(d||'');
+let openId=null;
+function histList(){
+openId=null;$('hTitle').textContent=lang==='ta'?'உரையாடல்கள்':'Conversations';
+$('hBack').style.display='none';$('hDel').style.display='none';
+const b=$('hBody');b.innerHTML='';
+if(!sess.length){b.textContent='இன்னும் உரையாடல் இல்லை.';return}
+sess.slice().reverse().forEach(s=>{
+const c=document.createElement('div');c.className='card';
+const f=s.msgs.find(m=>m.w==='me');
+c.innerHTML='<b></b><small></small>';
+c.firstChild.textContent=(f?f.t:'...').slice(0,44);
+c.lastChild.textContent=fmt(s.t)+'  \u00b7  '+s.msgs.length;
+c.onclick=()=>histOpen(s);b.appendChild(c);
+});
+}
+function histOpen(s){
+openId=s.id;$('hTitle').textContent=fmt(s.t);
+$('hBack').style.display='flex';$('hDel').style.display='flex';
+const b=$('hBody');b.innerHTML='';
+s.msgs.forEach(m=>{
+const d=document.createElement('div');d.className='m '+(m.w==='me'?'me':'bot g');d.textContent=m.t;
+const sm=document.createElement('small');sm.textContent=fmt(m.d);d.appendChild(sm);b.appendChild(d);
+});
+b.scrollTop=0;
+}
+function histShow(){histList();$('hist').classList.add('show');$('hbk').classList.add('show')}
+function histHide(){$('hist').classList.remove('show');$('hbk').classList.remove('show')}
+function showTim(){
+const l=$('timl');l.innerHTML='';
+const act=timers.filter(x=>!x.done);
+if(!act.length)l.textContent='டைமர் இல்லை.';
+act.forEach(x=>{const d=document.createElement('div');d.className='row';const m=Math.max(0,Math.round((x.at-Date.now())/60000));d.textContent=(x.label||'Timer')+'  -  '+m+' min';l.appendChild(d)});
+$('timp').classList.add('show');
+}
+
+/* ---------- UI ---------- */
+$('bLang').onclick=()=>{lang=lang==='ta'?'en':'ta';localStorage.setItem('vegar_lang',lang);updLang();if(live){try{rec&&rec.abort()}catch(e){}}};
+$('bKey').onclick=()=>{askKey(true)};
+$('bLive').onclick=()=>{live?stopLive():startLive()};
+$('bClap').onclick=()=>{
+clapOn=!clapOn;updBtns();
+if(clapOn){addLog('sys',lang==='ta'?'இரண்டு முறை கைதட்டுங்கள்':'Clap twice to wake me');startClap()}
+else{stopClap();if(!live)releaseWake()}
+};
+cv.onclick=async()=>{
+if(live){stopLive();return}
+if(busy)return;
+stopClap();await sleep(500);
+const r=await listen();
+if(r.text)await handle(r.text);
+else{setState('idle');if(r.err==='not-allowed')addLog('sys','mic அனுமதி தேவை')}
+if(clapOn)setTimeout(startClap,900);
+};
+function sendTyped(){const x=$('inp').value.trim();if(!x)return;$('inp').value='';handle(x)}
+$('bSend').onclick=sendTyped;
+$('inp').addEventListener('keydown',e=>{if(e.key==='Enter')sendTyped()});
+$('bMem').onclick=showMem;
+$('bClose').onclick=()=>$('memp').classList.remove('show');
+$('bClear').onclick=()=>{if(confirm('எல்லா நினைவையும் அழிக்கவா?')){mem=[];save('vegar_mem',mem);showMem()}};
+$('bHist').onclick=histShow;$('hClose').onclick=histHide;$('hbk').onclick=histHide;$('hBack').onclick=histList;
+$('hDel').onclick=()=>{if(openId&&confirm('இந்த உரையாடலை அழிக்கவா?')){sess=sess.filter(s=>s.id!==openId);if(cur&&cur.id===openId)cur=null;save('vegar_sess',sess);histList()}};
+$('bTim').onclick=showTim;$('bTClose').onclick=()=>$('timp').classList.remove('show');
+$('bTClear').onclick=()=>{timers.forEach(x=>x.done=true);save('vegar_timers',timers);showTim()};
+updLang();updBtns();setState('idle');
+addLog('sys',lang==='ta'?'வேகர் தயார். உருண்டையை தட்டுங்கள், அல்லது mic பட்டனை அழுத்துங்கள்.':'Vegar is ready. Tap the orb or press the mic button.');
+</script>
+</body>
+</html>
