@@ -251,8 +251,8 @@ return new Promise(res=>{
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 if(!SR){res({err:'nosupport'});return}
 const r=new SR();rec=r;
-r.lang=lang==='ta'?'ta-IN':'en-IN';
 r.interimResults=true;
+r.continuous=false;
 r.maxAlternatives=3;
 let done=false;const fin=v=>{if(!done){done=true;rec=null;res(v)}};
 r.onspeechstart=r.onsoundstart=()=>{kick=1};
@@ -268,12 +268,6 @@ try{r.start()}catch(e){fin({err:'start'})}
 });
 }
 
-/* ---------- Conversation ---------- */
-function addBotBubble(){
-const d=document.createElement('div');d.className='m bot g';d.textContent='...';
-$('log').appendChild(d);while($('log').children.length>40)$('log').removeChild($('log').firstChild);$('log').scrollTop=1e9;
-return d;
-}
 
 async function handle(text,img){
 if(busy)return;
